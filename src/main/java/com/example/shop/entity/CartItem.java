@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Entity @Table
 @Getter @Setter @ToString
-public class CartItem {
+public class CartItem extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "cart_item_id")

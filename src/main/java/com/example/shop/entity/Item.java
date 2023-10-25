@@ -12,7 +12,7 @@ import java.util.List;
 @Entity @Table(name = "item")
 @Getter @Setter @ToString
 @Builder @NoArgsConstructor @AllArgsConstructor
-public class Item {
+public class Item  extends BaseEntity {
 
     @Id @Column(name = "item_id") @GeneratedValue
     private Long id;
@@ -41,9 +41,9 @@ public class Item {
     )
     private List<Member> member;*/
 
-    @CreationTimestamp
-    private LocalDateTime regTime;
-
-    @UpdateTimestamp
-    private LocalDateTime updateTime;
+//    @CreationTimestamp
+//    private LocalDateTime regTime;
+//
+//    @UpdateTimestamp
+//    private LocalDateTime updateTime;
 }

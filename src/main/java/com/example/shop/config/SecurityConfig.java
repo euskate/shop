@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.security.config.http.MatcherType.ant;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -61,6 +64,8 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/members/**")).permitAll()
+                .requestMatchers(antMatcher("/item/**")).permitAll()
+                .requestMatchers(antMatcher("/images/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
                 .anyRequest().authenticated());     // 어떠한 요청이라도 인증 필요
 

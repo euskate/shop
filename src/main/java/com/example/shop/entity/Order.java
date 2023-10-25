@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter @Setter @ToString
 @Entity @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "order_id")
@@ -30,7 +30,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
+//    private LocalDateTime regTime;
+//
+//    private LocalDateTime updateTime;
 }
