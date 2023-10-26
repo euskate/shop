@@ -2,6 +2,7 @@ package com.example.shop.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,14 +14,15 @@ import java.util.UUID;
 @Slf4j
 public class FileService {
 
-    public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws IOException {
+    public String uploadFile(String uploadPath, String originalFileName, MultipartFile fileData) throws IOException {
         UUID uuid = UUID.randomUUID();
         String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
         String savedFileName = uuid.toString() + ext;
         String fileUploadPath = uploadPath + "/" + savedFileName;
-        FileOutputStream fileOutputStream = new FileOutputStream(fileUploadPath);
-        fileOutputStream.write(fileData);
-        fileOutputStream.close();
+        fileData.transferTo(new File(fileUploadPath));
+//        FileOutputStream fileOutputStream = new FileOutputStream(fileUploadPath);
+//        fileOutputStream.write(fileData);
+//        fileOutputStream.close();
         return savedFileName;
     }
 

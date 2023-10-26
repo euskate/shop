@@ -6,8 +6,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 
@@ -34,8 +34,10 @@ public class ItemImgService {
 
         // 파일 업로드
 //        if (!oriImgName.isEmpty()) {
-        if (!StringUtils.isEmpty(oriImgName)) {
-            imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+        // depreceated
+        if (StringUtils.hasText(oriImgName)) {
+        //if (!StringUtils.isEmpty(oriImgName)) {
+            imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile);
             imgUrl = "/images/item/" + imgName;
         }
 
