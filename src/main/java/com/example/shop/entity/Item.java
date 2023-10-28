@@ -1,6 +1,7 @@
 package com.example.shop.entity;
 
 import com.example.shop.constant.ItemSellStatus;
+import com.example.shop.dto.ItemFormDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,6 +34,16 @@ public class Item  extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;
 
+    public void updateItem(ItemFormDto itemFormDto){
+        this.itemNm = itemFormDto.getItemNm();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+
+
     // many to many
  /*   @ManyToMany
     @JoinTable(name = "member_item",
@@ -46,4 +57,6 @@ public class Item  extends BaseEntity {
 //
 //    @UpdateTimestamp
 //    private LocalDateTime updateTime;
+
+
 }
