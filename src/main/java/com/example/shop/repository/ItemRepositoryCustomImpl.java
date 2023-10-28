@@ -2,8 +2,7 @@ package com.example.shop.repository;
 
 import com.example.shop.constant.ItemSellStatus;
 import com.example.shop.dto.ItemSearchDto;
-import com.example.shop.entity.Item;
-import com.example.shop.entity.QItem;
+import com.example.shop.entity.*;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -49,6 +48,42 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        List<MainItemDto> content = queryFactory.select(
+                        new QMainItemDto(item.id, item.itemNm, item.itemDetail, itemImg.imgUrl, item.price)
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repImgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory.select(Wildcard.count)
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(itemImg.repImgYn.eq("Y"))
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
+
+    }
+
+    private Predicate itemNmLike(String searchQuery) {
+        if (StringUtils.isEmpty(searchQuery)) {
+            return null;
+        } else {
+            return QItem.item.itemNm.like("%"+searchQuery+"%");
+        }
     }
 
     private Predicate searchByLike(String searchBy, String searchQuery) {

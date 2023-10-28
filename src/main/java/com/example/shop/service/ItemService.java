@@ -5,6 +5,7 @@ import com.example.shop.dto.ItemImgDto;
 import com.example.shop.dto.ItemSearchDto;
 import com.example.shop.entity.Item;
 import com.example.shop.entity.ItemImg;
+import com.example.shop.entity.MainItemDto;
 import com.example.shop.repository.ItemImgRepository;
 import com.example.shop.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -84,5 +85,9 @@ public class ItemService {
 
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
+
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
 }
