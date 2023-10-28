@@ -12,22 +12,15 @@
         });
 
         function page(page) {
-            var searchDateType = $("#searchDateType").val();
-            var searchSellStatus = $("#searchSellStatus").val();
-            var searchBy = $("#searchBy").val();
-            var searchQuery = $("#searchQuery").val();
+            const searchDateType = document.getElementById('searchDateType').value;
+            const searchSellStatus = document.getElementById('searchSellStatus').value;
+            const searchBy = document.getElementById('searchBy').value;
+            const searchQuery = document.getElementById('searchQuery').value;
 
-            location.href =
-                "/admin/items/" +
-                page +
-                "?searchDateType=" +
-                searchDateType +
-                "&searchSellStatus=" +
-                searchSellStatus +
-                "&searchBy=" +
-                searchBy +
-                "&searchQuery=" +
-                searchQuery;
+            const path = "/admin/items/";
+            const query = `?searchDateType=${searchDateType}&searchSellStatus=${searchSellStatus}&searchBy=${searchBy}&searchQuery=${searchQuery}`
+
+            location.href = path + page + query
         }
     </script>
 </th:block>
@@ -72,18 +65,31 @@
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link" th:if="${not items.first}"
-                        th:href="@{/admin/items/{number}(number=${items.number-1}) }">이전</a>
+                        th:onclick="'page(' + ${items.number - 1} + ')'">이전</a>
                 </li>
+                <!-- <li class="page-item">
+                    <a class="page-link" th:if="${not items.first}"
+                        th:href="@{/admin/items/{number}(number=${items.number-1}) }">이전</a>
+                </li> -->
+
+                <!-- <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:onclick="page(${page-1})"
+                    th:classappend="${items.number == page-1} ? 'active' : '' ">
+                    <a class="page-link" th:href="@{/admin/items/{number}(number=${page-1})}" th:text="${page}"></a>
+                </li> -->
 
                 <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
                     th:classappend="${items.number == page-1} ? 'active' : '' ">
-                    <a class="page-link" th:href="@{/admin/items/{number}(number=${page-1})}" th:text="${page}"></a>
+                    <a class="page-link" th:text="${page}" th:onclick="'page(' + ${page - 1} + ')'"></a>
                 </li>
 
                 <li class="page-item">
                     <a th:unless="${items.last}" class="page-link"
-                        th:href="@{/admin/items/{number}(number=${items.number+1})}">다음</a>
+                        th:onclick="'javascript:page(' + ${items.number + 1} + ')'">다음</a>
                 </li>
+                <!-- <li class=" page-item">
+                        <a th:unless="${items.last}" class="page-link" th:href="@{/admin/items/{number}(number=${items.number+1})}
+                        ">다음</a>
+                </li> -->
             </ul>
         </nav>
 
@@ -109,6 +115,40 @@
             <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
         </div>
     </form>
+    <!-- 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const pageLinkBtnList = document.querySelectorAll('.page-link');
+
+            let searchDateType = document.getElementById('searchDateType').value;
+            let searchSellStatus = document.getElementById('searchSellStatus').value;
+            let searchBy = document.getElementById('searchBy').value;
+            let createdBy = document.getElementById('createdBy').value;
+
+            let path = "/admin/items/";
+            let query = `?searchDateType=${searchDateType}&searchSellStatus=${searchSellStatus}&searchBy=${searchBy}&createdBy=${createdBy}`
+
+
+            pageLinkBtnList.forEach(pageLinkBtn => pageLinkBtn.addEventListener('click', (event) => {
+                console.log("test");
+            }));
+            // pageLinkBtnList.forEach(pageLinkBtn => {
+            //     pageLinkBtn.addEventListener('click', (event) => {
+            //         console.log("test");
+            //         number = Number(event.target.innerText) - 1;
+            //         // location.href = path + number + query
+            //         console.log(number);
+            //     })
+            // }
+            // )
+            function page(number) {
+
+                location.href = path + number + query
+            }
+        });
+    </script> -->
 </div>
+
+
 
 </html>
