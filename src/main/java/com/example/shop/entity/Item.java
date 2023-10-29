@@ -2,6 +2,7 @@ package com.example.shop.entity;
 
 import com.example.shop.constant.ItemSellStatus;
 import com.example.shop.dto.ItemFormDto;
+import com.example.shop.exception.OutOfStockException;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,6 +43,13 @@ public class Item  extends BaseEntity {
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
+    public void removeStock(int stockNumber) {
+        int rest = this.stockNumber - stockNumber;
+        if (rest < 0) {
+            throw new OutOfStockException("상품 재고가 부족합니다. 현재재고 : " + this.stockNumber);
+        }
+        this.stockNumber = rest;
+    }
 
 
     // many to many

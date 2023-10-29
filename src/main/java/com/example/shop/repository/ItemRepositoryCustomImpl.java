@@ -67,7 +67,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        Long total = queryFactory.select(Wildcard.count)
+        Long total = queryFactory.select(item.count())
                 .from(itemImg)
                 .join(itemImg.item, item)
                 .where(itemImg.repImgYn.eq("Y"))
