@@ -72,8 +72,15 @@ public class SecurityConfig {
 //        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer
 //                .ignoringRequestMatchers("/h2.console/**"));
 //
-//        // 인증되지 않은 사용자가 들어왔을 때 예외 처리
-//        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> new CustomAuthenticationEntryPoint());
+        // 인증되지 않은 사용자가 들어왔을 때 예외 처리
+        http.exceptionHandling(
+                exception -> exception.authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    }
+                })
+        );
 
         return http.build();
     }

@@ -12,5 +12,5 @@ public class OrderDto {
     
     @Min(value = 1, message = "최소주문 수량은 1개")
     @Max(value = 999, message = "최대주문수량 999개")
-    private int Count;
+    private int count;
 }
