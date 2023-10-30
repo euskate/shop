@@ -5,21 +5,21 @@
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
     <style>
-        .carousel-inner>.carousel-item {
-            height: 350px;
+        .carousel {
+            margin-bottom: 30px;
         }
+
+        .carousel-inner>.carousel-item>img {
+            height: 240px;
+        }
+
 
         .margin {
             margin-bottom: 30px;
         }
 
-        .banner {
-            height: 300px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .card-img-top {
+            height: 10rem;
         }
 
         .card-text {
@@ -28,8 +28,13 @@
             overflow: hidden;
         }
 
+        a {
+            color: black;
+        }
+
         a:hover {
             text-decoration: none;
+
         }
 
         .center {
@@ -39,7 +44,7 @@
 </th:block>
 
 <div layout:fragment="content">
-    <!-- 
+
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -68,8 +73,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-    </div> -->
-
+    </div>
     <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
     <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
         <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
@@ -78,17 +82,19 @@
     <div class="row">
         <th:block th:each="item, status: ${items.getContent()}">
             <div class="col-md-4 margin">
-                <div class="card" style="width: 18rem;">
-                    <img th:src="${item.imgUrl}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${item.itemNm}">Card title</h5>
-                        <p class="card-text" th:text="${item.itemDetail}">Some quick example text to build on the card
-                            title and make up the bulk
-                            of the card's content.</p>
-                        <h5 class="card-title" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}+'원'">Card
-                            title</h5>
-                        <a th:href="@{/item/{id}(id=${item.id})}" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                <div class="card">
+                    <a th:href="@{/item/{id}(id=${item.id})}">
+                        <img th:src="${item.imgUrl}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${item.itemNm}">Card title</h5>
+                            <p class="card-text" th:text="${item.itemDetail}">Some quick example text to build on the
+                                card
+                                title and make up the bulk
+                                of the card's content.</p>
+                            <h5 class="card-title" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}+'원'">Card
+                                title</h5>
+                        </div>
+                    </a>
                 </div>
             </div>
         </th:block>
