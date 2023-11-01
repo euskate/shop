@@ -51,6 +51,10 @@ public class Item  extends BaseEntity {
         this.stockNumber = rest;
     }
 
+    public void addStock(int count) {
+        this.stockNumber += count;
+    }
+
 
     // many to many
  /*   @ManyToMany
