@@ -106,19 +106,19 @@ public class ItemController {
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 5);
         int maxPage = 5;
-        int startPage = (items.getNumber() / maxPage) * maxPage + 1;
-        int endPage = 0;
-        
+//        int startPage = (items.getNumber() / maxPage) * maxPage + 1;
+//        int endPage = 0;
+//
         // 시작 페이지 마지막 페이지 구하기
-        if (items.getTotalPages() == 0) {
-            endPage = 1;
-        } else if (startPage + (maxPage - 1) < items.getTotalPages()) {
-            endPage = startPage + maxPage - 1;
-        } else {
-            endPage = items.getTotalPages();
-        }
-        model.addAttribute("start", startPage);
-        model.addAttribute("end", endPage);
+//        if (items.getTotalPages() == 0) {
+//            endPage = 1;
+//        } else if (startPage + (maxPage - 1) < items.getTotalPages()) {
+//            endPage = startPage + maxPage - 1;
+//        } else {
+//            endPage = items.getTotalPages();
+//        }
+//        model.addAttribute("start", startPage);
+//        model.addAttribute("end", endPage);
 
 
         return "item/itemMng";

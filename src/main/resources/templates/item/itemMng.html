@@ -61,7 +61,8 @@
         </table>
 
         <!-- 페이지네이션 -->
-        <nav>
+        <nav
+            th:with="start=${(items.getNumber()/maxPage)*maxPage + 1}, end=(${(items.getTotalPages() == 0) ? 1 : (start + (maxPage - 1) < items.getTotalPages() ? start + (maxPage - 1) : items.getTotalPages())})">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link" th:if="${not items.first}"
