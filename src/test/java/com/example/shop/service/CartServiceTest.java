@@ -1,11 +1,11 @@
 package com.example.shop.service;
 
 import com.example.shop.constant.ItemSellStatus;
-import com.example.shop.dto.OrderDto;
+import com.example.shop.dto.CartItemDto;
+import com.example.shop.entity.CartItem;
 import com.example.shop.entity.Item;
 import com.example.shop.entity.Member;
-import com.example.shop.entity.Order;
-import com.example.shop.entity.OrderItem;
+import com.example.shop.repository.CartItemRepository;
 import com.example.shop.repository.ItemRepository;
 import com.example.shop.repository.MemberRepository;
 import com.example.shop.repository.OrderRepository;
@@ -15,25 +15,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
-import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
-class OrderServiceTest {
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
+class CartServiceTest {
     @Autowired
     ItemRepository itemRepository;
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    CartService cartService;
+
+    @Autowired
+    CartItemRepository cartItemRepository;
 
     public Item saveItem(){
         Item item = new Item();
@@ -49,27 +48,24 @@ class OrderServiceTest {
         Member member = new Member();
         member.setEmail("test@test.com");
         return memberRepository.save(member);
-
     }
 
     @Test
-    @DisplayName("주문 테스트")
-    public void order(){
+    @DisplayName("장바구니 담기 테스트")
+    public void addCart(){
         Item item = saveItem();
         Member member = saveMember();
 
-        OrderDto orderDto = new OrderDto();
-        orderDto.setCount(10);
-        orderDto.setItemId(item.getId());
+        CartItemDto cartItemDto = new CartItemDto();
+        cartItemDto.setCount(5);
+        cartItemDto.setItemId(item.getId());
 
-        Long orderId = orderService.order(orderDto, member.getEmail());
-        Order order = orderRepository.findById(orderId)
+        Long cartItemId = cartService.addCart(cartItemDto, member.getEmail());
+
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        List<OrderItem> orderItems = order.getOrderItems();
-
-        int totalPrice = orderDto.getCount()*item.getPrice();
-
-        assertEquals(totalPrice, order.getTotalPrice());
+        assertEquals(item.getId(), cartItem.getItem().getId());
+        assertEquals(cartItemDto.getCount(), cartItem.getCount());
     }
 }

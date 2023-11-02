@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application.properties")
 class OrderTest {
 
     @Autowired OrderRepository orderRepository;

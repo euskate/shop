@@ -28,7 +28,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application.properties")
 class ItemRepositoryTest {
 
     @Autowired
