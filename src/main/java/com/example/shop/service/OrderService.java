@@ -30,6 +30,7 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ItemImgRepository itemImgRepository;
 
+    // CREATE
     public Long order(OrderDto orderDto, String email) {
         Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
 
@@ -46,6 +47,7 @@ public class OrderService {
     }
 
 
+    // READ
     public Page<OrderHistDto> getOrderList(String email, Pageable pageable) {
         List<Order> orders = orderRepository.findOrders(email, pageable);
         Long totalCount = orderRepository.countOrder(email);
@@ -70,6 +72,7 @@ public class OrderService {
 
     }
 
+    // DELETE
     public void cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         order.cancelOrder();
@@ -86,5 +89,22 @@ public class OrderService {
         }
 
         return true;
+    }
+
+    // CREATE multi
+    public Long orders(List<OrderDto> orderDtoList, String email) {
+        Member member = memberRepository.findByEmail(email);
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+        for (OrderDto orderDto : orderDtoList) {
+            Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
     }
 }

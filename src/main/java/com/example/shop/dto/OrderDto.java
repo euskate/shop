@@ -2,10 +2,12 @@ package com.example.shop.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class OrderDto {
     
     private Long itemId;
